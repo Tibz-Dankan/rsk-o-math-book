@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat");
+import { ethers } from "hardhat";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -6,10 +6,10 @@ async function main() {
 
   const Converter = await ethers.getContractFactory("Converter");
   const converter = await Converter.deploy();
-  await converter.deploymentTransaction().wait(); 
+  await converter.waitForDeployment();
 
-  console.log("converter:",converter)
-  console.log("converter address:", converter.address);
+  const contractAddress = await converter.getAddress();
+  console.log("contractAddress:", contractAddress);
 }
 
 main().catch((error) => {
